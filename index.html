@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Client</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+
+      <form class="form-signin">
+        <h2 class="form-signin-heading">Please add your creds</h2>
+        <label for="inputEmail">Username</label>
+        <input type="text" id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="">
+        <label for="inputPassword">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+        <button class="btn">Perform Action</button>
+      </form>
+
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" id="json"></div>
+        </div>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+    (function ($) {
+
+        $(document).ready(function($) {
+
+            $('button').click(function(event) {
+                event.preventDefault();
+                var username = $("#inputUsername").val();
+                var password = $("#inputPassword").val();
+
+                $.ajax
+                  ({
+                    url: "http://localhost:8888/api/wp-json/wp/v2/posts/1",
+                    method: 'DELETE',
+                    crossDomain: true,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader ("Authorization", "Basic " + btoa( username + ':' + password ));
+                    },
+                    success: function (data){
+                        $('#json').text(JSON.stringify(data));
+                    }
+                });
+            });
+        });
+
+    })(jQuery);
+</script>
+</html>
